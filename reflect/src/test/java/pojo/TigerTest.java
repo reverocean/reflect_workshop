@@ -120,7 +120,7 @@ public class TigerTest {
     public void shouldReturnStaticMethod() throws NoSuchMethodException, InvocationTargetException, IllegalAccessException {
         Method staticMethod = clazz.getDeclaredMethod("thisStaticMethod", new Class[0]);
         String staticMethodResult = (String) staticMethod.invoke(null, null);
-        assertThat(staticMethodResult, is("abc"));
+        assertThat(staticMethodResult, is("test"));
     }
 
 }
