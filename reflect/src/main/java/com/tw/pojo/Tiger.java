@@ -31,6 +31,6 @@ public class Tiger extends Animal {
     }
 
     public static String thisStaticMethod() {
-        return "abc";
+        return "test";
     }
 }

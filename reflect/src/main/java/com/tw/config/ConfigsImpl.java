@@ -9,7 +9,7 @@ import static com.google.common.collect.ImmutableList.of;
  * Date: 3/20/13
  * Time: 12:06 PM
  */
-public class ConfigsImpl {
+public class ConfigsImpl implements Configs{
     public List<BeanConfig> getBeanConfigs() {
         BeanConfig bankDaoBeanConfig = new BeanConfig("bankDao", "com.tw.dao.DefaultBankDao");
         BeanConfig bankServiceBeanConfig = new BeanConfig("bankService", "com.tw.service.DefaultBankService");

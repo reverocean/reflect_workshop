@@ -11,6 +11,6 @@ public class DefaultBankDao implements BankDao {
     }
 
     public int query(String account) {
-        return 0;
+        return 10;
     }
 }

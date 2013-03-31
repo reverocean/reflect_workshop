@@ -22,7 +22,8 @@ public class InitClassTest {
     @Test
     public void shouldGetClassFromGetClassMethod() {
         DefaultBankService service = new DefaultBankService();
-        assertThat(service.getClass().getName(), is(defaultBankServiceClassName));
+        Class<? extends DefaultBankService> serviceClass = service.getClass();
+        assertThat(serviceClass.getName(), is(defaultBankServiceClassName));
     }
 
     @Test
