@@ -27,10 +27,8 @@ public class ApplicationContextImpl implements ApplicationContext {
     public ApplicationContextImpl(Configs configs) {
         checkNotNull(configs);
         this.configs = configs;
-        initBeans();
-        initProperties();
+        init();
     }
-
 
     @Override
     public <T> T getBean(String beanName) {
@@ -38,6 +36,21 @@ public class ApplicationContextImpl implements ApplicationContext {
             throw new BeanNotFoundException(String.format("%s not found in the Application Context", beanName));
         }
         return (T) beans.get(beanName);
+    }
+
+
+    private void init() {
+        initBeans();
+        initProperties();
+        initFactoryBeans();
+    }
+    private void initFactoryBeans() {
+        for (BeanConfig beanConfig : configs.getBeanConfigs()) {
+            Object bean = beans.get(beanConfig.getName());
+            if (isFactoryBean(bean)) {
+                beans.put(beanConfig.getName(), ((FactoryBean)bean).getObject());
+            }
+        }
     }
 
     private void initProperties() {
@@ -84,9 +97,6 @@ public class ApplicationContextImpl implements ApplicationContext {
             clazzs.put(className, clazz);
             Object bean = clazz.newInstance();
             initApplicationContextAware(bean);
-            if (isFactoryBean(bean)) {
-                return ((FactoryBean)bean).getObject();
-            }
             return bean;
         } catch (InstantiationException e) {
             throw new InitApplicationContextException(String.format("Can't initialize bean: %s", className), e);
