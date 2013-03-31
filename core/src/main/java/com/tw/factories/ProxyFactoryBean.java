@@ -15,26 +15,25 @@ import java.util.List;
  */
 public class ProxyFactoryBean<T> implements FactoryBean, InvocationHandler, ApplicationContextAware {
     private Object target;
-    private Class[] interfaces;
+    private List<String> interfaces;
     private List<String> interceptorNames;
     private ApplicationContext applicationContext;
 
     @Override
     public T getObject() {
-        return (T) Proxy.newProxyInstance(this.getClass().getClassLoader(), interfaces, this);
+        throw new UnsupportedOperationException("Need to implement");
     }
 
     @Override
     public Object invoke(Object proxy, Method method, Object[] objects) throws Throwable {
-        return null;
+        throw new UnsupportedOperationException("Need to implement");
     }
 
     public void setTarget(Object target) {
         this.target = target;
     }
 
-
-    public void setInterfaces(Class[] interfaces) {
+    public void setInterfaces(List<String> interfaces) {
         this.interfaces = interfaces;
     }
 

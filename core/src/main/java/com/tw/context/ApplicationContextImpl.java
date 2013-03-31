@@ -57,7 +57,7 @@ public class ApplicationContextImpl implements ApplicationContext {
                                 method.invoke(bean, new Object[]{beans.get(beanProperty.getRef())});
                             }
                             if (beanProperty.getList() != null) {
-                                method.invoke(bean, new Object[]{beans.get(beanProperty.getList())});
+                                method.invoke(bean, new Object[]{beanProperty.getList()});
                             }
                         } catch (IllegalAccessException e) {
                             throw new InitApplicationContextException(String.format("Can't initialize bean: %s", beanName), e);
