@@ -1,6 +1,5 @@
-package pojo;
+package com.tw.pojo;
 
-import com.tw.pojo.Tiger;
 import org.junit.Before;
 import org.junit.Test;
 

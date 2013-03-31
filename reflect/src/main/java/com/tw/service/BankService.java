@@ -8,5 +8,5 @@ package com.tw.service;
 public interface BankService {
     void deposit(String account, double money);
 
-    int query(String account);
+    double query(String account);
 }

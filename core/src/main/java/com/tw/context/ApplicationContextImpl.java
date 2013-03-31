@@ -5,6 +5,7 @@ import com.tw.config.BeanProperty;
 import com.tw.config.Configs;
 import com.tw.exceptions.BeanNotFoundException;
 import com.tw.exceptions.InitApplicationContextException;
+import com.tw.factories.FactoryBean;
 
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
@@ -42,19 +43,28 @@ public class ApplicationContextImpl implements ApplicationContext {
     private void initProperties() {
         for (BeanConfig beanConfig : configs.getBeanConfigs()) {
             String className = beanConfig.getClassName();
+            String beanName = beanConfig.getName();
             Class clazz = clazzs.get(className);
             Method[] declaredMethods = clazz.getDeclaredMethods();
             for (BeanProperty beanProperty : beanConfig.getProperties()) {
+
                 for (Method method : declaredMethods) {
                     String methodName = method.getName();
                     if (methodName.startsWith("set") && methodName.substring(3).equalsIgnoreCase(beanProperty.getName())) {
-                        Object bean = beans.get(beanConfig.getName());
+                        Object bean = beans.get(beanName);
                         try {
-                            method.invoke(bean, new Object[]{beans.get(beanProperty.getRef())});
+                            if(beanProperty.getRef() != null){
+                                method.invoke(bean, new Object[]{beans.get(beanProperty.getRef())});
+                            }
+                            if (beanProperty.getList() != null) {
+                                method.invoke(bean, new Object[]{beans.get(beanProperty.getList())});
+                            }
                         } catch (IllegalAccessException e) {
-                            throw new InitApplicationContextException(String.format("Can't initialize bean: %s", className), e);
+                            throw new InitApplicationContextException(String.format("Can't initialize bean: %s", beanName), e);
                         } catch (InvocationTargetException e) {
-                            throw new InitApplicationContextException(String.format("Can't initialize bean: %s", className), e);
+                            throw new InitApplicationContextException(String.format("Can't initialize bean: %s", beanName), e);
+                        } catch (Throwable e) {
+                            throw new InitApplicationContextException(String.format("Can't initialize bean: %s", beanName), e);
                         }
                     }
                 }
@@ -72,11 +82,26 @@ public class ApplicationContextImpl implements ApplicationContext {
         try {
             Class clazz = getClazz(className);
             clazzs.put(className, clazz);
-            return clazz.newInstance();
+            Object bean = clazz.newInstance();
+            initApplicationContextAware(bean);
+            if (isFactoryBean(bean)) {
+                return ((FactoryBean)bean).getObject();
+            }
+            return bean;
         } catch (InstantiationException e) {
             throw new InitApplicationContextException(String.format("Can't initialize bean: %s", className), e);
         } catch (IllegalAccessException e) {
             throw new InitApplicationContextException(String.format("Can't initialize bean: %s", className), e);
+        }
+    }
+
+    private boolean isFactoryBean(Object bean) {
+        return bean instanceof FactoryBean;
+    }
+
+    private void initApplicationContextAware(Object bean) {
+        if (bean instanceof ApplicationContextAware) {
+            ((ApplicationContextAware)bean).setApplicationContext(this);
         }
     }
 

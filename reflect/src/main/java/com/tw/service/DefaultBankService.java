@@ -16,7 +16,7 @@ public class DefaultBankService implements BankService {
     }
 
     @Override
-    public int query(String account) {
+    public double query(String account) {
         return bankDao.query(account);
     }
 

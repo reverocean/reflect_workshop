@@ -7,5 +7,5 @@ package com.tw.dao;
  */
 public interface BankDao {
     void deposit(String account, double money);
-    int query(String account);
+    double query(String account);
 }

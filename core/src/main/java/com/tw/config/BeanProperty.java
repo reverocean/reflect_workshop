@@ -1,5 +1,7 @@
 package com.tw.config;
 
+import java.util.List;
+
 /**
  * User: Haiyang
  * Date: 3/20/13
@@ -8,11 +10,16 @@ package com.tw.config;
 public class BeanProperty {
     private String name;
     private String ref;
-    private String value;
+    private List<String> list;
 
     public BeanProperty(String name, String ref) {
         this.name = name;
         this.ref = ref;
+    }
+
+    public BeanProperty(String name, List<String> list) {
+        this.name = name;
+        this.list = list;
     }
 
     public String getName() {
@@ -31,11 +38,11 @@ public class BeanProperty {
         this.ref = ref;
     }
 
-    public String getValue() {
-        return value;
+    public List<String> getList() {
+        return list;
     }
 
-    public void setValue(String value) {
-        this.value = value;
+    public void setList(List<String> list) {
+        this.list = list;
     }
 }
