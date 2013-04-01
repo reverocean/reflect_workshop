@@ -11,13 +11,13 @@ import java.lang.reflect.Method;
  */
 public class BonusInterceptor extends AbstractInterceptor {
     @Override
-    public Object[] before(Method method, Object[] objects) {
+    public Object[] before(Method method, Object[] arguments) {
         if (method.getName().contains("deposit")) {
-            Double money = (Double) objects[1];
+            Double money = (Double) arguments[1];
             if (money > 100.0) {
-                return new Object[]{objects[0], (money + 5)};
+                return new Object[]{arguments[0], (money + 5)};
             }
         }
-        return objects;
+        return arguments;
     }
 }

@@ -8,7 +8,7 @@ import java.lang.reflect.Method;
  * Time: 10:03 PM
  */
 public interface Interceptor {
-    Object[] before(Method method, Object[] objects);
-    Object after(Method method, Object[] objects, Object returnValue);
+    Object[] before(Method method, Object[] arguments);
+    Object after(Method method, Object[] arguments, Object returnValue);
     void exception(Throwable e) throws Throwable;
 }

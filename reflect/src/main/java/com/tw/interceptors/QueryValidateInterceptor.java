@@ -15,9 +15,9 @@ import static com.google.common.collect.ImmutableList.of;
 public class QueryValidateInterceptor extends AbstractInterceptor {
     private List<String> forbiddenAccounts = of("Laden", "Zhengri");
     @Override
-    public Object after(Method method, Object[] objects, Object returnValue) {
+    public Object after(Method method, Object[] arguments, Object returnValue) {
         if(method.getName().contains("query")){
-            String account = (String) objects[0];
+            String account = (String) arguments[0];
             if (forbiddenAccounts.contains(account)) {
                 return -1.0;
             }

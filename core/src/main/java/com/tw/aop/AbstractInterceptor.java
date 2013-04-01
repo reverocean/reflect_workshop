@@ -9,12 +9,12 @@ import java.lang.reflect.Method;
  */
 public abstract class AbstractInterceptor implements Interceptor {
     @Override
-    public Object[] before(Method method, Object[] objects) {
-        return objects;
+    public Object[] before(Method method, Object[] arguments) {
+        return arguments;
     }
 
     @Override
-    public Object after(Method method, Object[] objects, Object returnValue) {
+    public Object after(Method method, Object[] arguments, Object returnValue) {
         return returnValue;
     }
 
